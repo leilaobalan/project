@@ -3,92 +3,105 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Server Status</title>
-        <style>
-            body {
-                background-color: #D6B3E4; /* pastel purple */
-                font-family: Arial, sans-serif;
-                color: #3F2A59; /* dark purple text */
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                text-align: center;
-            }
+//Add this
+const http = require('http')
+const server = http.createServer(app);
 
-            .container {
-                background-color: #F2E1F4; /* lighter pastel purple */
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 300px;
-            }
-
-            h1 {
-                font-size: 2em;
-                margin-bottom: 20px;
-                color: #5C3C70;
-            }
-
-            p {
-                font-size: 1.2em;
-                margin: 0;
-                color: #6F4F83;
-            }
-
-            .status {
-                margin-top: 20px;
-                font-size: 1.5em;
-                font-weight: bold;
-                color: #3F2A59;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Server Status</h1>
-            <p class="status">Server is running smoothly 🎊 </p>
+app.get('/', (req,res)=> {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            background: #555;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            padding: 20px;
+            background: #fff;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Server is running</h1>
         </div>
-    </body>
-    </html>
-    `);  // Used backticks for multi-line string
+        </body>
+        </html>
+        `)
+    
 });
 
-// Connection to MongoDB
-mongoose
-    .connect("mongodb+srv://leilaobalan:A94-BrNrGBqn7gd@cluster0.oympg.mongodb.net/", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log("MongoDB Connected");
-    })
-    .catch((error) => {
-        console.error("MongoDB Connection Error:", error.message);
-        process.exit(1); 
-    });
+//connection to MongoDB
 
-// Middleware
+// Connect to MongoDB
+mongoose
+.connect("mongodb+srv://leilaobalan:A94-BrNrGBqn7gd@cluster0.oympg.mongodb.net/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB Connected"))
+.catch((error) => {
+    console.error("MongoDB Connection Error:", error.message);
+    process.exit(1); // Exit if the database connection fails
+});
+
+//Middleware
 app.use(cors());
 app.use(express.json());
 
-// Import API folder
-const submitTalentForm = require('./API/submit'); 
+//Import API folder
+const submitTalentForm = require('./API/submit')
 
-// Use API
-app.use("/submit", submitTalentForm);
+//Use API
+app.use("/submit", submitTalentForm)
 
 // Start the server
-const PORT = 5004;
+// const PORT = 1523;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);  
+ //app.listen(PORT, () => {
+  //  console.log(Server is running on http://localhost:${PORT});
+ //});
+
+//Start the server Microsoft Azure
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+
 });
