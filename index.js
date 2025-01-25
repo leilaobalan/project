@@ -7,9 +7,9 @@ const app = express();
 const http = require('http')
 const server = http.createServer(app);
 
-app.get('/', (req,res) => {
-    res.send("Server is running")
-});
+// app.get('/', (req,res) => {
+//     res.send("Server is running")
+// });
 
 //connection to MongoDB
 
