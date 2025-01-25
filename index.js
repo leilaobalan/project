@@ -7,64 +7,8 @@ const app = express();
 const http = require('http')
 const server = http.createServer(app);
 
-app.get('/', (req,res)=> {
-    res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Webpage</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 20px;
-            text-align: center;
-        }
-        nav {
-            background: #555;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        section {
-            padding: 20px;
-            background: #fff;
-            margin: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            text-align: center;
-            padding: 10px 20px;
-            background: #333;
-            color: #fff;
-            position: relative;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Server is running</h1>
-        </div>
-        </body>
-        </html>
-        `)
-    
+app.get('/', (req,res) => {
+    res.send("Server is running")
 });
 
 //connection to MongoDB
@@ -99,9 +43,18 @@ app.use("/submit", submitTalentForm)
  //});
 
 //Start the server Microsoft Azure
-const PORT = process.env.PORT || 3000;
+const PORT = 4000;
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
 
+const path = require("path");
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "dist"))); // Adjust path if necessary
+
+// Catch-all handler to serve React's index.html for unmatched routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
