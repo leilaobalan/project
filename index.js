@@ -43,10 +43,10 @@ app.use("/submit", submitTalentForm)
  //});
 
 //Start the server Microsoft Azure
-const PORT = 4000;
+const PORT = 8080;
 
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+server.listen(PORT || 8080, () => {
+    console.log(`Server running on port ${PORT || 8080}`);
 });
 
 const path = require("path");
