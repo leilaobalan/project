@@ -48,13 +48,3 @@ const PORT = 8080;
 server.listen(PORT || 8080, () => {
     console.log(`Server running on port ${PORT || 8080}`);
 });
-
-const path = require("path");
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "dist"))); // Adjust path if necessary
-
-// Catch-all handler to serve React's index.html for unmatched routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
